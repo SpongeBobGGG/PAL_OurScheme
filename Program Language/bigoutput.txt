@@ -1,0 +1,10 @@
+Welcome to OurScheme!
+
+> ERROR (unexpected token) : atom or '(' expected when token at Line 1 Column 1 is >>.<<
+
+> ERROR (unexpected token) : atom or '(' expected when token at Line 1 Column 1 is >>.<<
+
+> nil
+
+> 
+Thanks for using OurScheme!

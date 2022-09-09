@@ -1,0 +1,25 @@
+1. There are four projects : Proj. 1+2 and Proj. 3+4. You start with Proj. 1+2. When you want to switch projects, please post a message on the BBS PL版. Your message should be something like this.
+
+To switch from Proj. 1+2 to Proj. 3+4
+
+  Message title: 
+    PL109_10727355 想要切換至700
+  Message content:
+    PL109_10727355張大文想要切換至700，謝謝！
+
+To switch from Proj. 3+4 to Proj. 1+2
+
+  Message title: 
+    PL109_10727355 想要切換至500
+  Message content:
+    PL109_10727355張大文想要切換至500，謝謝！
+
+I will make the switch when I see this message. (Normally, I check the PL board once a day.) Please do not switch too often (i.e., make the switch only when you really want to switch).
+
+2. Project due date is 2021-06-27 (Sun.) at midnight.
+
+3. If your Windows 8/10/... fails to run PAL-2021-03-03-1-0.exe, it may be because the JDK/JRE your Windows OS is using is incompatible with the old version of JDK upon which PAL-2021-03-03-1-0.exe was built. Therefore, when your Windows 8/10/... does not execute PAL-2021-03-03-1-0.exe correctly or smoothly, you will need to run PAL-2021-03-03-1-0.jar instead, using java.exe of JDK/JRE 6uX. (For some unknown reason, java.exe of JRE 6uX is better than java.exe of JDK 6uX. So, please use java.exe of JRE 6uX to run PAL-2021-03-03-1-0.jar.) Install an older version of JDK by using the jdk-6u7 that I provided should be a good idea.
+
+4. To run PAL-2021-03-03-1-0.jar using java.exe of JDK/JRE 6uX, you will need to do something similar to what is said in Visual-C之安裝與使用.doc. Please consult what is said in Visual-C之安裝與使用.doc when you try to run  PAL-2021-03-03-1-0.jar using java.exe of JRE 6uX.
+
+5. If you use, e.g., ICEInputStream, to read input in your Java code (when you are testing your Java code on your OWN machine), you will need to provide Java.exe with >>HsiaNB50Lib.jar<<. Otherwise, Java.exe will have problems finding relevant ICExxx classes such as ICEInputStream.

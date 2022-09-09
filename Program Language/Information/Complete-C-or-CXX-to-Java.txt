@@ -1,0 +1,435 @@
+// Note:
+//   This file contains eight programs. You should 
+//   start by examining Version 1 vs. Version 1A.
+//   Then, you examine Version 2 vs. Version 2A.
+//   And then, Version 3 vs. Version 3A.
+//   And then, Version 4 vs. Version 4A.
+// 
+//   Version 1 and Version 2 are actually C programs.
+//   (C++ is, as the name suggests, C ++; that is, the C++  
+//    language just adds more stuff to the C language.)
+//   What Version 2 tries to tell you is that  
+//   a "global function" cannot (directly) access the fields  
+//   of a 'struct'" (something you should know long time
+//   ago). To access the field of a struct, you have to say
+//   which struct it is.
+// 
+//   What Version 3 tries to tell you is that a function
+//   (such as Level()) can be declared as "belonging to" a 
+//   struct. When a function is defined as "belonging to"
+//   a struct, that function is called (by hsia) a 
+//   "struct-owned function." 
+//   
+//   The notion of "a struct-owned function" is a new notion
+//   of functions. A struct-owned function is a genuine
+//   function. It can do everything a (global) function can
+//   do. What's more, when a function owned by a struct is  
+//   called, it can directly access the fields (such as the 
+//   field named 'level') of that struct.
+// 
+//   Together, Versions 3 and 4 try to explain to you why
+//   "static functions CANNOT access/call non-static ones" and
+//   why "ALL functions CAN access/call static ones."
+
+// Instructions for running the programs contained in this file using
+// NetBeans7.2+C++ (Repackaged) :
+// 1. Run NetBeans7.2+C++ (Repackaged)
+// 2. 檔案 | New Project...
+// 
+// Suppose you want to run a C/C++ program contained in this file ...
+// Oprional step : [Browse] | find a place on your disk to put the project folder | [開啟] 
+// 3. [Categories] : C/C++    ;    [Projects] : C/C++ Application   ;    [下一步]
+// 4. [Project Name] : CompleteInC     ;     [完成]
+// 5. Open the "Projects" window in NetBeans IDE 7.2 (i.e., 視窗 | Projects)
+// 6. In the "Projects" window, you should see a project named "CompleteInC", 
+//    unfold it (by clicking the '+' to its left). Then, unfold its "Source Files".
+//    Double click "main.cpp" to ask NB to show this file.
+// 7. When the file ("main.cpp") is shown, copy the content of this file and paste in it (overriding the existing content).
+// 8. Say that you want to run "Version 1" (a simple C program) contained in this file.
+// 9. The line right above "Version 1 : a simple C/C++ program" contains just >>/*<<
+//    Change it (by adding '// ') to >>// /*<<.
+// 10. Click the GREEN RIGHT ARROW ICON (or Run | Run project (CompleteInC) )
+// 11. If you want to run Version 2 or 3 or 4, you should change >>// /*<< back to >>/*<<
+//     before you change the >>/*<< of Version 2 or 3 or 4 to >>// /*<< and run it.
+// 
+// Suppose you want to run a Java program contained in this file ...
+// Oprional step : [Browse] | find a place on your disk to put the project folder | [開啟] 
+// 3. [Categories] : Java    ;    [Projects] : Java Application   ;    [下一步]
+// 4. [Project Name] : BCC108_10827301     ;   [Create Main Class] : BCC108_10827301.Main     ;     [完成]
+//    (注意：以上第四步不可key錯，大小寫也不可弄錯)
+// 5. Open the "Projects" window in NetBeans IDE 7.2 (i.e., 視窗 | Projects)
+// 6. In the "Projects" window, you should see a project named "BCC108_10527301", 
+//    unfold it (by clicking the '+' to its left). Then, unfold its "Source Packages".
+//    Then, unfold the "BCC108_10827301" package (which is also a directory)
+//    Double click "Main.java" to ask NB to show this file. (however, NB may have already shown it to you)
+// 7. When the file ("Main.java") is shown, copy the content of this file and paste in it (overriding the existing content).
+// 8. Say that you want to run "Version 1A" (a simple Java program) contained in this file.
+// 9. The line right above "Version 1A : a simple Java program" contains just >>/*<<
+//    Change it (by adding '// ') to >>// /*<<.
+// 10. Click the GREEN RIGHT ARROW ICON (or Run | Run project (BCC108_10827301) )
+// 11. If you want to run Version 2A or 3A or 4A, you should change >>// /*<< back to >>/*<<
+//     before you change the >>/*<< of Version 2A or 3A or 4A to >>// /*<< and run it.
+
+// ==== Again: to run a program, just put '// ' right in front of the '/*' of that program ====
+
+/*
+// Version 4 : Move global variables and "global functions" 
+//             into a struct-declaration
+
+# include <stdio.h>
+
+struct Student { // note: if we change 'struct' to 'class', we
+                 //       should add 'public:' on this line
+
+  static int sCount ; // was the global variable 'gCount'
+
+  Student() { // constructor
+    mLevel = mScore = 0 ;
+    sCount++ ; // since a new struct just came into existence
+  } // Student()
+
+  Student( int level ) { // a second constructor
+    mLevel = level ; mScore = 0 ;
+    sCount++ ; // since a new struct just came into existence
+  } // Student()
+
+  int mScore, mLevel ; // the two fields of any Student struct
+
+  int Level() { // a function "bundled with" 'score' and 'level'
+                // in a Student struct; i.e., it is "owned"
+                // by structs ;
+
+    return mLevel ; // can also access 'sCount' if we want to
+
+  } // Level()
+
+  static int Total() { // a "global" function not belonging to
+                       // any struct
+
+    return sCount ; // we cannot access 'mLevel' in here
+
+  } // Total()
+
+} ; // struct Student        
+
+int Student::sCount = 0 ; // C++ requires static class variables to be 
+                          // defined outside of the class definition
+
+typedef Student * StudentPtr ;
+
+int main() {
+
+  StudentPtr s1 = new Student(3), s2 = new Student() ; 
+  s2->mLevel = 4 ;
+
+  printf( "s1->Level(): %d\ns2->Level(): %d\nStudent::Total(): %d\n", 
+          s1->Level(), s2->Level(), Student::Total() ) ;
+
+} // main()
+
+// */ // Version 4 (Move "global" variables and functions into 
+//                  a struct-declaration)
+
+/*
+// Version 4A : a corresponding Java program
+
+package BCC108_10827301 ;
+
+class Student { 
+
+  static int sCount ; 
+
+  Student() { // a constructor
+    mLevel = mScore = 0 ;
+    sCount++ ; // since a new struct just came into existence
+  } // Student()
+
+  Student( int level ) { // a second constructor
+    mLevel = level ; mScore = 0 ;
+    sCount++ ; // since a new struct just came into existence
+  } // Student()
+
+  int mScore, mLevel ; // the two fields of any Student struct
+
+  int Level() { // a function "bundled with" 'score' and 'level'
+                // in a Student struct; a "struct-owned" function
+
+    return mLevel ; // can also access 'sCount' if we want to
+
+  } // Level()
+
+  static int Total() { // a "global" function not belonging to
+                       // any struct
+
+    return sCount ; // note that we cannot directly access 'mLevel' here
+
+  } // Total()
+
+} // class Student
+
+class Main {
+
+  public static void main( String[] args ) throws Throwable {
+
+    Student s1 = new Student(3), s2 = new Student() ;
+    s2.mLevel = 4 ;
+
+    System.out.print(   "s1.Level(): "      + s1.Level() + "\n" 
+                      + "s2.Level(): "      + s2.Level() + "\n"
+                      + "Student.Total(): " + Student.Total() ) ;
+  } // main()
+
+} // class Main
+
+// */ // Version 4A (a corresponding Java program)
+
+// ====================================================================
+
+/*
+// Version 3 : a C/C++ program with struct-owned functions
+
+// Note: the notion of "a struct-owned function" is a NEW CONCEPT
+
+# include <stdio.h>
+
+int gCount = 0 ; // since there are no 'Student' at the beginning
+
+struct Student {
+
+  int score, level ; // the two fields of any Student struct
+
+  Student() { // a constructor ; automatically called during 'new' ;
+    score = level = 0 ;
+    gCount++ ; // since a new struct has been created
+               // note that anyone can reference a global variable
+               // or call a global function
+  } // Student()
+
+  int Level() ; // a "struct-owned function"
+
+} ; // struct Student
+
+int Student::Level() { // each Student struct has this function
+
+  return level ; // a struct-owned function can access any field of the struct
+
+  // we can also access 'gCount' or call Total() here
+
+} // Level()
+
+int Total() { // a "global function" not belonging to any struct
+
+  return gCount ; // we CANNOT access 'level' in this function
+
+} // Total()
+
+typedef Student * StudentPtr ;
+
+int main() {
+
+  StudentPtr s1 = NULL, s2 = NULL ;
+  s1 = new Student() ; // one Student struct created
+  s2 = new Student() ; // another Student struct created
+
+  s1->level = 1 ; // this is how a global function such as main()
+  s2->level = 2 ; // can access the fields of a struct
+                  // (you just have to say "which stuct it is")
+
+  printf( "s1->Level(): %d\ns2->Level(): %d\nTotal(): %d\n", 
+          s1->Level(), s2->Level(), Total() ) ;
+
+} // main()
+
+// */ // Version 3 (a C/C++ program with struct-owned functions)
+
+/*
+// Version 3A : a corresponding Java program
+
+package BCC108_10827301 ;
+
+class G { 
+  static int sCount = 0 ; // since there are no 'Student' at the beginning
+  static int Total() { return sCount ; }
+  // note that we CANNOT directly access 'level' or directly call Level() in Total()
+} // class G
+
+class Student {
+
+  int mScore, mLevel ; // the two data members of every Student object
+
+  Student() { // a constructor ; automatically called during 'new' ;
+    mScore = mLevel = 0 ;
+    G.sCount++ ; // since a new struct has been created
+                 // note that anyone can reference a global variable
+                 // or call a global function
+  } // Student()
+
+  int Level() { return mLevel ; } // a "struct-owned function"
+  // note that we can also access 'G.sCount' or call G.Total() in Level()
+
+} // class Student
+
+class Main {
+
+  public static void main( String[] args ) throws Throwable {
+  
+    Student s1 = null, s2 = null ;
+    s1 = new Student() ; // one Student struct created
+    s2 = new Student() ; // a second Student struct created
+  
+    s1.mLevel = 1 ; // this is how a global function such as main()
+    s2.mLevel = 2 ; // can access the fields of a struct
+                    // (you just have to say "which stuct it is")
+  
+    System.out.printf( "s1.Level(): %d\ns2.Level(): %d\nG.Total(): %d\n", 
+                       s1.Level(), s2.Level(), G.Total() ) ;
+  
+  } // main()
+
+} // class Main
+
+// */ // Version 3A (a corresponding Java program)
+
+// ====================================================================
+
+/*
+// Version 2 : a C program with structs
+
+# include <stdio.h>
+
+int gCount = 0 ; // the number of structs created
+
+struct Student {
+
+  int score, level ; // the two fields of any Student struct
+
+} ; // struct Student
+
+int Total() { // a "global function"
+
+  return gCount ; // we cannot access 'level' in this function
+                  // but we can access global variables here
+                  // (you should know this long ago.)
+
+} // Total()
+
+typedef Student * StudentPtr ;
+
+int main() { // note: main() is also a "global function"
+
+  StudentPtr s1 = NULL, s2 = NULL ;
+  s1 = new Student() ; gCount++ ; // one Student struct created
+  s2 = new Student() ; gCount++ ; // one more Student struct created
+
+  s1->level = 1 ; // this is how we access the fields of a struct
+  s2->level = 2 ; // in a "global function"
+                  // (you just have to say "which struct it is")
+
+  printf( "s1->level: %d\ns2->level: %d\nTotal(): %d\n", 
+          s1->level, s2->level, Total() ) ;
+
+} // main()
+
+// */ // Version 2 (a C program with structs)
+
+/*
+// Version 2A : a corresponding Java program
+
+package BCC108_10827301 ;
+
+class G {
+  static int sCount = 0 ;
+  static int Total() { return sCount ; }
+} // class G
+
+class Student {
+  int mScore, mLevel ;
+} // class Student
+
+class Main {
+
+  public static void main( String[] args ) throws Throwable { 
+  
+    Student s1 = null, s2 = null ;
+    s1 = new Student() ; G.sCount++ ; // one Student struct created
+    s2 = new Student() ; G.sCount++ ; // one more Student struct created
+  
+    s1.mLevel = 1 ; // this is how we access the fields of a struct
+    s2.mLevel = 2 ; // in a "global function"
+                   // (you just have to say "which struct it is")
+  
+    System.out.printf( "s1.level: %d\ns2.level: %d\nG.Total(): %d\n", 
+                       s1.mLevel, s2.mLevel, G.Total() ) ;
+  
+  } // main()
+
+} // clsss Main
+
+// */ // Version 2 (a corresponding Java program)
+
+// ====================================================================
+
+/*
+// Version 1 : a simple C/C++ program
+
+# include <stdio.h>
+
+int gCount = 0 ; // a global variable
+
+int Total() { // a "global function" 
+
+  return gCount ; // anybody can access global variables!!!
+
+} // Total()
+
+int main() {
+
+  // anybody can access global variables and call global functions
+
+  gCount++ ; 
+  gCount++ ; 
+
+  printf( "Total(): %d\n", Total() ) ; // should print >>2<<
+
+} // main()
+
+// */ // Version 1 (a simple C/C++ program)
+
+/*
+// Version 1A : a simple Java program
+
+package BCC108_10827301 ;
+
+class G {
+
+  static int sCount = 0 ; // a global variable
+  static int Total() { // a "global function" 
+
+    return sCount ; // anybody can access global variables!!!
+
+  } // Total()
+
+} // class G
+
+class Main {
+
+  public static void main( String[] args ) throws Throwable {
+
+    G.sCount++ ; 
+    G.sCount++ ; 
+
+    System.out.printf( "G.Total(): %d\n", G.Total() ) ; // should print >>2<<
+
+  } // main()
+
+} // class Main
+
+// */ // Version 1A (a simple Java program)
+
+
+
+
+
+
+
+

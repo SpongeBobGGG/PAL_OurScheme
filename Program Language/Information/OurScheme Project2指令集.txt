@@ -1,0 +1,81 @@
+指令介紹:
+
+only take 0 argument:
+
+  clean-environment (0) // 此指令將user的definitions清空，一切重新開始
+                        // 注意! 此指令必須在第一個出現，為 Top Level
+  exit              (0) // 此指令將離開OurScheme，( exit )、( exit . nil ) 皆可行 ( cons exit nil ) 則不會退出
+                        // 注意! 此指令必須在第一個出現，為 Top Level
+
+only take 1 argument:
+
+  quote (1)      // 就是quote，將其頭尾括號以及quote的token移除後pretty-print
+  '     (1)      // 就是quote，將其頭尾括號以及quote的token移除後pretty-print
+  car   (1)      // 印傳入的左節點，( 123 . 4 ) 印出123
+  cdr   (1)      // 印傳入的右節點，( 123 . 4 ) 印出4
+  not   (1)      // 如果傳入的不是 nil 一律輸出 nil ，否則輸出 #t
+  atom?          // 檢查是否為atom( SYMBOL, INT, FLOAT, STRING, NIL, T ) if is atom return #t ，else return nil
+  pair?          // 檢查是否為atom，if is atom return nil ，else return #t
+  list?          // 檢查是否為list，if is list return #t ，else return nil
+  null?          // 檢查是否為null，if is null return #t ，else return nil
+  integer?       // 檢查type是否為 INT，if is INT return #t ，else return nil
+  real?          // 檢查type是否為 INT 或是 FLOAT，如果是 return #t ，else return nil
+  number?        // 檢查type是否為 INT 或是 FLOAT，如果是 return #t ，else return nil
+  string?        // 檢查type是否為 STRING ，如果是 return #t ，else return nil
+  boolean?       // 如果傳入的不是 #t or nil ， 一律輸出 nil ，否則輸出 #t
+  symbol?        // 檢查type是否為 SYMBOL ，如果是 return #t ，else return nil 
+                 // 注意! 該 SYMBOL 沒被定義的話，ERROR!
+
+only take 2 argument:
+
+  eqv?    (2)    // 先檢查兩者是不是 atom 並且不是 STRING ， 如果不是且兩個相等 return #t 
+                 // 但如果兩者被定義在同一記憶體空間 ， 則也 return #t ，else return nil
+  equal?  (2)    // 只要兩者的每個token皆相同，就 return #t ，else return nil
+  cons    (2)    // 生成 ( 左節點 . 右節點 ) ， ( cons 1 2 ) 變成 ( 1 . 2 )
+  define  (2)    // 將一 SYMBOL 定義成右邊的樣子 注意! 指令如 cons 也可被define成其他的樣子
+				 // 注意! 此指令必須在第一個出現， 為 Top Level
+
+take >= 0 argument:
+
+  list (>= 0)    // 生成 ( 左節點 . ( 右節點 ) ) ， ( cons 1 2 ) 變成 ( 1 . ( 2 ) )
+  
+take >= 1 argument:
+
+  cond    (>= 1) // 印出第一個符合條件的節點，如果沒有符合條件的節點， return ERROR (no return value)
+                 // 範例1 : (cond ( ( > 3 4 ) 'bad ) ( ( > 4 3 ) 'good) ) ，印出 good
+				 // 範例2 : (cond ( ( > 3 4 ) 'bad ) ( ( > 4 5 ) 'good) ) ，ERROR (no return value)
+  begin   (>= 1) // 印出最後的節點， ( begin 1 2 3 )，印出 3
+  
+take >= 2 argument:
+
+  +   (>= 2)     // 必須是 INT 或是 FLOAT，從左加到右
+  -   (>= 2)     // 必須是 INT 或是 FLOAT，從左減到右
+  *   (>= 2)     // 必須是 INT 或是 FLOAT，從左乘到右
+  /   (>= 2)     // 必須是 INT 或是 FLOAT，從左除到右 注意! 不可除以零， ERROR!
+  and (>= 2)     // 如果每個都不是 nil ， 則回傳最後一個的值，否則回傳 nil，( and 1 2 3 )，印出 3
+  or  (>= 2)     // 印出第一個不是 nil 的值，如果每個都是 nil 則回傳 nil，( or 1 2 3 )，印出 1
+  >   (>= 2)     // 必須是 INT 或是 FLOAT，第一個與第二個比，第二個再與第三個比，其中一個不符合，回傳 nil ， else return #t
+  >=  (>= 2)     // 必須是 INT 或是 FLOAT，第一個與第二個比，第二個再與第三個比，其中一個不符合，回傳 nil ， else return #t
+  <   (>= 2)     // 必須是 INT 或是 FLOAT，第一個與第二個比，第二個再與第三個比，其中一個不符合，回傳 nil ， else return #t
+  <=  (>= 2)     // 必須是 INT 或是 FLOAT，第一個與第二個比，第二個再與第三個比，其中一個不符合，回傳 nil ， else return #t
+  =   (>= 2)     // 必須是 INT 或是 FLOAT，第一個與第二個比，第二個再與第三個比，其中一個不符合，回傳 nil ， else return #t
+  string-append  // 必須是 STRING，從左加到右，( string-append "HELLO " "WORLD!" )，印出 "HELLO WORLD!"
+  string>?       // 必須是 STRING，第一個與第二個比，第二個再與第三個比，其中一個不符合，回傳 nil ， else return #t
+  string<?       // 必須是 STRING，第一個與第二個比，第二個再與第三個比，其中一個不符合，回傳 nil ， else return #t
+  string=?       // 必須是 STRING，第一個與第二個比，第二個再與第三個比，其中一個不符合，回傳 nil ， else return #t
+  
+take 2 or 3 argument:
+
+  if (2 or 3)    // if (2) 的情況，如果左節點不是 nil，則印出右節點，else return ERROR (no return value)，( if #t 2 )印出2，( if nil 2 ) error
+                 // if (3) 的情況，如果第一個節點不是 nil ，印出中間的節點，否則印出右節點，( if #t 2 3 )印出2，( if nil 2 3)印出3
+
+ERROR 介紹:
+ERROR (non-list) : 不是純粹的list，如( cons 1 . 2 )
+ERROR (incorrect number of arguments) :數量錯誤 如(cons 1 2 3)
+ERROR (" " with incorrect argument type) :型別錯誤 如(+ 1 2 "Hello")
+ERROR (attempt to apply non-function) :括號內沒有任何指令 如(1 2)
+ERROR (no return value) :沒有回傳值 如(if nil 3)
+ERROR (unbound symbol) :出現沒有被定義過的symbol， 如 ( cons a b )
+ERROR (division by zero) : 除以零 如 ( / 1 2 0 )
+ERROR (" " format) : 格式不符合該指令， 如 ( define a )
+ERROR (level of " ") // define、exit、clean-environment這三道指令在其他指令內 如( cons (define a 10 ) 20)

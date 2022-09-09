@@ -1,0 +1,38 @@
+TokenPtr CAR( TokenPtr thisToken ) {
+  if ( Arguments( thisToken ) == 1 ) {
+    if ( thisToken->mRight->mLeft->mType == SYMBOL ) { // 問目前要被eval的是不是個SYMBOL
+      if ( IsInternalCmd( thisToken->mRight->mLeft ) ) {  // 問是不是InternalCmd 
+        throw new Exception( thisToken->mRight->mLeft, "CAR", Wrong_arg_Type, true );
+      } // if 
+      else {
+        TokenPtr temp = thisToken->mRight->mLeft;
+        thisToken->mRight->mLeft = GetUserDef( thisToken->mRight->mLeft ) ; // 不是InternalCmd就問gUserDef
+        if ( thisToken->mRight->mLeft == NULL ) { // 找不到
+          throw new Exception( temp, "CAR", Wrong_arg_Type, false );
+        } // if
+        else {
+          return CAR( thisToken ); // 再call 一次CAR 
+        } // else
+      } // else
+    } // if
+    else if ( thisToken->mRight->mLeft->mType == LEFT_PAREN ) {
+      if ( !thisToken->mRight->mLeft->mQuoted ) { // 還沒處理過quote
+        thisToken->mRight->mLeft = EvalSExp( thisToken->mRight->mLeft, 0 ) ;
+        cout << "YA";
+
+        return CAR( thisToken ); // 再call 一次CAR 
+      } // if
+      else // 處理過quote
+        return thisToken->mRight->mLeft->mLeft;
+    } // if
+    else { // Atom
+      throw new Exception( thisToken->mRight->mLeft, "CAR", Wrong_arg_Type, false );
+    } // else
+
+  } // if
+  else {
+    throw new Exception( thisToken, Wrong_arg_Num );
+  } // else 
+} // CAR()
+
+這個是未修改前要考慮的東西
