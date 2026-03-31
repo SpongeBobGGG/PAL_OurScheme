@@ -1,0 +1,129 @@
+當測試「Test data 2 of 3」時，Input為>>2
+  This     is       ICE !       ; and some comment here  
+   
+   v   
+           ; comment on the first line
+           ; comment on the second line  
+   Hello   ; comment on the third line   
+
+      there    !    
+    
+
+    @$%--3#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!.%%%%^^^&    ; well? 
+; How about this?
+;a string on the next line ; a string here ;"Flying with an eagle..."
+      "   ( 1 2.54 3 . -4. 5 6 Hi there . 7 . nil ) "
+; How about this?
+;a string on the next line ; a string here ;"Flying with an eagle..."
+      "   ( 1 2.54 3 . -4. 5 6 Hi there . 7 . nil () ) 
+
+#t t nil () #f at#fgh        ; and more comment
+325
+-   325.
+      
+
+    +3.25     .375     3a5b
+     
+
+
+        exit    
+    #  f      
+    #g .
+    ; bla bla bla bla bla     
+  #t   
+   
+( 525
+   .
+)
+    20 . 30
+
+      (        
+      )    
+      
+      #f      
+
+     ()   ) (1 2) 
+(3 4)5(exit)<<
+
+正確的輸出應該是>>Welcome to OurScheme!
+
+> This
+
+> is
+
+> ICE
+
+> !
+
+> v
+
+> Hello
+
+> there
+
+> !
+
+> @$%--3#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!.%%%%^^^&
+
+> "   ( 1 2.54 3 . -4. 5 6 Hi there . 7 . nil ) "
+
+> ERROR (no closing quote) : END-OF-LINE encountered at Line 3 Column 56
+
+> #t
+
+> #t
+
+> nil
+
+> nil
+
+> nil
+
+> at#fgh
+
+> 325
+
+> -
+
+> 325.000
+
+> 3.250
+
+> 0.375
+
+> 3a5b
+
+> exit
+
+> #
+
+> f
+
+> #g
+
+> ERROR (unexpected token) : atom or '(' expected when token at Line 1 Column 2 is >>.<<
+
+> #t
+
+> ERROR (unexpected token) : atom or '(' expected when token at Line 4 Column 1 is >>)<<
+
+> 20
+
+> ERROR (unexpected token) : atom or '(' expected when token at Line 1 Column 2 is >>.<<
+
+> nil
+
+> nil
+
+> nil
+
+> ERROR (unexpected token) : atom or '(' expected when token at Line 1 Column 4 is >>)<<
+
+> ( 3
+  4
+)
+
+> 5
+
+> 
+Thanks for using OurScheme!<<
