@@ -1,0 +1,335 @@
+當測試「Test data 2 of 3」時，Input為>>2
+
+; =============== Problem 1 可見數據 ====================
+(define a "=============== Problem 1 viewable case =================")
+a
+
+(clean-environment)
+
+; when the being evaluated S-expr is an atom, the result is that atom
+; (in our standard print-form)
+
+(list 3 '(4 5))
+(list 3 
+        '(4 5) 
+        6 
+        '(7 8))
+3
++3
++3.5
+
+; when a function is being evaluated, the parameters of this function
+; are evaluated BEFORE this function is "applied" 
+; to the evaluated results (of the parameters)
+
+; 1. A list (or rather, a dotted pair) is CONSTRUCTED.
+
+(cons 3 4)     ; an operation on two objects
+(cons 3
+      nil
+)            ; '(3 . nil)' = '(3)'
+(cons 30
+      ()
+)            ; same thing
+(cons 300
+      #f
+)            ; same thing
+()
+-.12549
+"Hi\n\""""
+(cons () nil)(cons #f #f)(cons nil ())
+(list 1 2 3)(list nil 2 3 #f)
+
+; 2. quote - a way to "by pass" the default interpretation of an S-exp
+
+'(3 4 5)'()
+(quote (3 (4 5)))
+
+(cons 3 '(4321 5))
+
+        
+; 3. To give a (symbolic) name to an object
+
+; Meaning of DEFINE revisited ("令")
+
+; Basically, DEFINE establishes a (temporary) binding between a symbol 
+; and (the internal representation of) an S-expression
+
+(define a 5)   ; "令a為5"; 讓我們把"那個東西"又稱為'a'
+(define b (cons 3 5))
+b             ; Is 'b' a name of some thing?
+a             ; Is 'a' a name of some thing?
+(define x '((3 4) 5))   ; 讓我們把"那個東西"又稱為'x'
+x              ; Is 'x' a name of some thing?
+(car '((3 4) "Merry Christmas!" . 6)  )
+(cdr '((3 4) "Merry Christmas!" . 6)  )
+(car '((3 4) . "Happy New Year!")  )
+
+; Combining (1), (2) and (3)
+
+(define a '(30 40))
+a
+(cons 5 a)
+
+(define hello '(1 2 . 3))
+(list hello hello)   
+(cons hello 
+      4
+)  
+(cons 10 #f)     
+(cons hello 
+      '(4)
+)    
+(cdr '(3 . 4))  ; the "right part" of a dotted pair
+(car '(3 4 5))    
+(cdr '(3 4 5))
+hello
+(define hello "\"CYCU ICE\"")
+(list hello hello '(100))
+(cons hello 
+        '(400 (5000 600) 70)
+  )       
+(car a)
+(cdr a)
+(define there "Number One!")
+(list hello there)
+
+; Whenever a function is called, its parameters are evaluated BEFORE
+; the function is "applied" to the evaluated results of the parameters ;  
+; However, this requires that (the evaluated result of) the first 
+; component of the being-evaluated list must be bound to a function ;
+; if (the evaluated result of) the first component of the being-evaluated list
+; is not bound to a function in the first place, the evaluation process 
+; stops, and an appropriate error message is issued.
+
+; 4. Different parts of a list (or a dotted pair) can be 
+;    individually accessed (by using 'car' and 'cdr')
+
+(cdr '((3 4) "Happy New Year!")  )
+(cdr '((3 4) . "Happy New Year!")  )
+(car '(3 . 4))  ; the "left part" of a dotted pair
+(car '((3 4) "Happy New Year!")  )
+(exit)<<
+
+正確的輸出應該是>>Welcome to OurScheme!
+
+> a defined
+
+> "=============== Problem 1 viewable case ================="
+
+> environment cleaned
+
+> ( 3
+  ( 4
+    5
+  )
+)
+
+> ( 3
+  ( 4
+    5
+  )
+  6
+  ( 7
+    8
+  )
+)
+
+> 3
+
+> 3
+
+> 3.500
+
+> ( 3
+  .
+  4
+)
+
+> ( 3
+)
+
+> ( 30
+)
+
+> ( 300
+)
+
+> nil
+
+> -0.125
+
+> "Hi
+""
+
+> ""
+
+> ( nil
+)
+
+> ( nil
+)
+
+> ( nil
+)
+
+> ( 1
+  2
+  3
+)
+
+> ( nil
+  2
+  3
+  nil
+)
+
+> ( 3
+  4
+  5
+)
+
+> nil
+
+> ( 3
+  ( 4
+    5
+  )
+)
+
+> ( 3
+  4321
+  5
+)
+
+> a defined
+
+> b defined
+
+> ( 3
+  .
+  5
+)
+
+> 5
+
+> x defined
+
+> ( ( 3
+    4
+  )
+  5
+)
+
+> ( 3
+  4
+)
+
+> ( "Merry Christmas!"
+  .
+  6
+)
+
+> ( 3
+  4
+)
+
+> a defined
+
+> ( 30
+  40
+)
+
+> ( 5
+  30
+  40
+)
+
+> hello defined
+
+> ( ( 1
+    2
+    .
+    3
+  )
+  ( 1
+    2
+    .
+    3
+  )
+)
+
+> ( ( 1
+    2
+    .
+    3
+  )
+  .
+  4
+)
+
+> ( 10
+)
+
+> ( ( 1
+    2
+    .
+    3
+  )
+  4
+)
+
+> 4
+
+> 3
+
+> ( 4
+  5
+)
+
+> ( 1
+  2
+  .
+  3
+)
+
+> hello defined
+
+> ( ""CYCU ICE""
+  ""CYCU ICE""
+  ( 100
+  )
+)
+
+> ( ""CYCU ICE""
+  400
+  ( 5000
+    600
+  )
+  70
+)
+
+> 30
+
+> ( 40
+)
+
+> there defined
+
+> ( ""CYCU ICE""
+  "Number One!"
+)
+
+> ( "Happy New Year!"
+)
+
+> "Happy New Year!"
+
+> 3
+
+> ( 3
+  4
+)
+
+> 
+Thanks for using OurScheme!
